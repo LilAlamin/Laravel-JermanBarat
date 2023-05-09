@@ -9,10 +9,10 @@
 
 </head>
 <body>
-    <div class="container-fluid mt-3">
-    <table class="table table-hover table-bordered">
+    <div class="container-fluid mt-3 ">
+    <table class="table table-hover table-bordered table-responsive">
         <tr class="table-dark">
-            <td>id</td>
+            <td>No</td>
             <td>Judul Buku</td>
             <td>Penulis</td>
             <td>Harga</td>
@@ -22,7 +22,7 @@
 
         @foreach ($data_buku as $buku)
             <tr>
-                <td>{{$buku->id}}</td>
+                <td>{{++$no}}</td>
                 <td>{{$buku->judul}}</td>
                 <td>{{$buku->penulis}}</td>
                 <td>{{ "Rp".number_format($buku->harga, 2, ',', '.') }}</td>
@@ -34,9 +34,17 @@
             </tr>
         @endforeach
     </table>
-    <p><a href="{{ route('buku.create') }}" class="btn btn-primary mx-5">Tambah Buku</a></p>
-    <h5 class="mx-5">Jumlah Buku :{{$data_buku->count('id')}}</h5>
-    <p class="mx-5">Total harga buku : {{ "Rp. ".number_format($data_buku->sum('harga')) }}</p>
+        {{--Paginate--}}
+        <div class="pagination">
+            {{ $data_buku->links() }}
+        </div>
+        {{--Tambah Button --}}
+    <p><a href="{{ route('buku.create') }}" class="btn btn-success">Tambah Buku</a></p>
+    <h5 class="">Jumlah Buku :{{$data_buku->count('id')}}</h5>
+    <p class="">Total harga buku : {{ "Rp. ".number_format($data_buku->sum('harga')) }}</p>
+        @if(Session::has('pesan'))
+            <div class="alert alert-success">{{Session::get('pesan')}}</div>
+        @endif
 </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>

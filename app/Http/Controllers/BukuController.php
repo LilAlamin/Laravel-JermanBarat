@@ -9,10 +9,11 @@ use function Ramsey\Uuid\v1;
 
 class BukuController extends Controller
 {
-    //GET BUKU 
+    //GET BUKU
     public function buku(){
-        $data_buku = Buku::all();
-        $no = 0;
+        $batas =5;
+        $data_buku = Buku::paginate($batas);
+        $no = $batas *($data_buku->currentPage()-1);
         return view("buku.index", compact('data_buku','no'));
     }
 
@@ -24,13 +25,13 @@ class BukuController extends Controller
     //Store Buku
     public function store(Request $request){
         $buku = new Buku();
-        
+
         $buku->judul = $request->judul;
         $buku->penulis = $request->penulis;
         $buku->harga = $request->harga;
         $buku->tgl_terbit = $request->tgl_terbit;
         $buku->save();
-        return redirect()->route('buku.index');
+        return redirect()->route('buku.index')->with('pesan','Data Buku Berhasil Disimpan sir');
     }
 
     //Delete Buku
